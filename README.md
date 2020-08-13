@@ -45,10 +45,10 @@ Statistics Controller
 
 ## Notes
 
-The features implemented were done so to fulfil the requirements on the front-end application.
-The DELETE commands are non-destructive, and mark records as "Deleted" as opposed to removing them from the DB.
-Joining a channel is a done by programmatically creating a new message in the room saying "PERSON has joined the channel".
-I built out the GIF suggestion endpoint using GIPHY api endpoint and tying into their search endpoint.
+- The features implemented were done so to fulfil the requirements on the front-end application.
+- The DELETE commands are non-destructive, and mark records as "Deleted" as opposed to removing them from the DB.
+- Joining a channel is a done by programmatically creating a new message in the room saying "PERSON has joined the channel".
+- I built out the GIF suggestion endpoint using GIPHY api endpoint and tying into their search endpoint.
 
 I had tried to get Web Sockets implemented on the Rails <-> React with Action Cable, but kept running into configuration issues.
 Instead, I just went with a basic CRUD application.
