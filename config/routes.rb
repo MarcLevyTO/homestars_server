@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get "/profile", to: "users#profile"
   get "/gifSearch", to: "gif_search#search"
   get "/search", to: "search#search"
+  get "/messages/search", to: "messages#search"
   post "/channels/:id/join", to: "channels#join"
 
   resources :users, only: [:index, :create]

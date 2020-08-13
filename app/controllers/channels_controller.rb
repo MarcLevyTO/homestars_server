@@ -52,6 +52,22 @@ class ChannelsController < ApplicationController
     end
   end
 
+  # @route     DELETE /channels/:id
+  # @desc      Join new channel (sends an introduction method to the channel)
+  # @access    User (should be an admin level user or the user who made the channel)
+  # @params
+  def delete
+    @channel = Channel.find(params[:id])
+    return render json: @channel.errors, status: :unprocessable_entity if @channel.blank?
+    @channel.status = "Archived"
+    if @channel.save
+      render json: @channel
+    else
+      render json: @channel.errors, status: :unprocessable_entity
+    end
+  end
+
+
   private
 
   def channel_params
