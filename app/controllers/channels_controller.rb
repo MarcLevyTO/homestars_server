@@ -26,7 +26,7 @@ class ChannelsController < ApplicationController
   end
 
   # @route     GET /channels/:id
-  # @desc      Create new channel
+  # @desc      Fetch channel information
   # @access    User
   # @params
   def show
