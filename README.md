@@ -57,5 +57,5 @@ If I had more time:
 
 - I would certainly make the application a LIVE chat application instead of a RELOAD chat application.
 - Create a join table to handle user -> channel status, like joining or leaving and handling permissions of being able archive a room.
-- Flush out more of the RSPEC tests.
+- Do a lot more work on the RSPEC tests. Its in a PSUEDO view only state.
 - Add more statistics.
