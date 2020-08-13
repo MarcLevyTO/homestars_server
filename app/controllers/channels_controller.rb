@@ -1,9 +1,9 @@
 class ChannelsController < ApplicationController
-  before_action :authorized, only: [:create, :show, :join]
+  before_action :authorized, only: [:index, :create, :show, :join, :delete]
 
   # @route     GET /channels
   # @desc      List all channels
-  # @access    Public
+  # @access    User
   # @params
   def index
     @channels = Channel.all
@@ -28,7 +28,7 @@ class ChannelsController < ApplicationController
   # @route     GET /channels/:id
   # @desc      Create new channel
   # @access    User
-  # @params    withMessages
+  # @params
   def show
     @channel = Channel.find(params[:id])
     return render json: @channel.errors, status: :unprocessable_entity if @channel.blank?

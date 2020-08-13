@@ -10,8 +10,10 @@ class MessagesController < ApplicationController
       return render json: { error: "missing data" }, status: :bad_request
     end
 
-    message = Message.new(user_id: @user.id, message: message_params[:message], channel_id: message_params[:channel_id])
     channel = Channel.find(message_params[:channel_id])
+    return render json: { error: "channel is archived, no new messages allowed" }, status: :forbidden if channel.status == "Archived"
+
+    message = Message.new(user_id: @user.id, message: message_params[:message], channel_id: message_params[:channel_id])
     if message.save
       ChannelChannel.broadcast_to(channel, {
         channel: ChannelSerializer.new(channel),
@@ -46,7 +48,7 @@ class MessagesController < ApplicationController
   # @route     DELETE /messages/:id
   # @desc      Delete message in channel (set status to "Deleted")
   # @access    User
-  # @params    message
+  # @params
   def delete
     @message = Message.find(params[:id])
     return render json: @channel.errors, status: :unprocessable_entity if @channel.blank?

@@ -30,7 +30,10 @@ class UsersController < ApplicationController
     end
   end
 
-
+  # @route     POST /profile
+  # @desc      Fetch user's profile
+  # @access    User
+  # @params
   def profile
     render json: @user
   end

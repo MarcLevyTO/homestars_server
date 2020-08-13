@@ -26,4 +26,8 @@ class User < ApplicationRecord
     super(options.merge({ except: [:password_digest] }))
   end
 
+  def messages_count
+    Message.where(user_id: id).count
+  end
+
 end
