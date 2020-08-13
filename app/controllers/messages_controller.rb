@@ -1,8 +1,8 @@
 class MessagesController < ApplicationController
-  before_action :authorized, only: [:create]
+  before_action :authorized, only: [:create, :update]
 
   # @route     POST /messages
-  # @desc      Create new channel
+  # @desc      Create new message in channel
   # @access    User
   # @params    channel_id, message
   def create
@@ -18,10 +18,36 @@ class MessagesController < ApplicationController
         users: UserSerializer.new(channel.users),
         messages: MessageSerializer.new(channel.messages)
       })
-      render json: MessageSerializer.new(message)
+      # render json: MessageSerializer.new(message)
+      render json: message
     else
       render json: message.errors, status: :unprocessible_entity
     end
+  end
+
+  # @route     PUT /messages/:id
+  # @desc      Edit message in channel
+  # @access    User
+  # @params    message
+  def update
+    return render json: { error: 'missing message' }, status: :unprocessible_entity if message_params[:message].nil?
+    message = Message.find(params[:id])
+    message.message = message_params[:message]
+    message.status = 'Edited'
+    message.save
+    render json: message
+  end
+
+  # @route     DELETE /messages/:id
+  # @desc      Delete message in channel (set status to 'Deleted')
+  # @access    User
+  # @params    message
+  def delete
+    return render json: { error: 'missing message' } status: :unprocessible_entity if message_params[:message].nil?
+    message = Message.find(params[:id])
+    message.status = 'Deleted'
+    message.save
+    render json: message, status: :accepted
   end
 
   private

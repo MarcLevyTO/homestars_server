@@ -1,5 +1,5 @@
 class ChannelsController < ApplicationController
-  before_action :authorized, only: [:create]
+  before_action :authorized, only: [:create, :show, :join]
 
   # @route     GET /channels
   # @desc      List all channels
@@ -22,6 +22,33 @@ class ChannelsController < ApplicationController
       render json: @channel, status: :created
     else
       render json: @channel.errors, status: :unprocessable_entity
+    end
+  end
+
+  # @route     GET /channels/:id
+  # @desc      Create new channel
+  # @access    User
+  # @params    withMessages
+  def show
+    @channel = Channel.find(params[:id])
+    return render json: @channel.errors, status: :unprocessable_entity if @channel.blank?
+    render json: @channel.to_json(:include => [:users, :messages])
+  end
+
+  # @route     POST /channels/:id/join
+  # @desc      Join new channel (sends an introduction method to the channel)
+  # @access    User
+  # @params
+  def join
+    @channel = Channel.find(params[:id])
+    return render json: @channel.errors, status: :unprocessable_entity if @channel.blank?
+    return render json: { error: 'Already joined' }, status: :method_not_allowed if @channel.users.include?(@user)
+
+    new_message = Message.new(user_id: @user.id, channel_id: @channel.id, message: "#{@user.username} has joined the channel!")
+    if new_message.save
+      render json: new_message
+    else
+      render json: new_message.errors, status: :unprocessable_entity
     end
   end
 
